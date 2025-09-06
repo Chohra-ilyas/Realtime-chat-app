@@ -88,7 +88,7 @@ const LoginPage = () => {
 
         <button
           className="bg-gradient-to-r from-purple-400 to-violet-600
-         hover:from-purple-500 hover:to-violet-500 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-300"
+         hover:from-purple-500 hover:to-violet-500 text-white font-semibold py-2 px-4 rounded-md transition duration-500"
         >
           {currentState === "Sign Up" ? "Create Account" : "Log In"}
         </button>
