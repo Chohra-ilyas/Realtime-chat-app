@@ -6,13 +6,20 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("chohra ilyas");
   const [bio, setBio] = useState("i'm a web developer");
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
   return (
     <div className="min-h-screen bg-cover bg-no-repeat flex items-center justify-center">
       <div
         className="w-5/6 max-w-2xl backdrop-blur-2xl text-gray-300 border-2
       border-gray-600 flex items-center justify-between max-sm:flex-col-reverse rounded-lg"
       >
-        <form className="flex flex-col gap-5 p-10 flex-1">
+        <form
+          onSubmit={formSubmitHandler}
+          className="flex flex-col gap-5 p-10 flex-1"
+        >
           <h3 className="text-lg">Profile Information</h3>
           <label
             htmlFor="avatar"
@@ -45,14 +52,26 @@ const ProfilePage = () => {
             onChange={(e) => setName(e.target.value)}
           />
           <textarea
-            className="p-2 rounded-md bg-transparent border border-gray-500 
+            rows={4}
+            className="min-h-[70px] p-2 rounded-md bg-transparent border border-gray-500 
             focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="Bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-2 rounded-md
+          hover:bg-gradient-to-l hover:from-purple-600 hover:to-violet-700 transition duration-600"
+          >
+            Save
+          </button>
         </form>
-        <img src="" alt="" />
+        <img
+          className="max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10"
+          src={assets.logo_icon}
+          alt=""
+        />
       </div>
     </div>
   );
