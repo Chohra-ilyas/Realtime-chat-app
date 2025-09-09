@@ -4,6 +4,7 @@ import http from "http";
 import "dotenv/config";
 import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/authRoute.js";
+import userRoutes from "./routes/userRoute.js";
 
 // Create Express app and HTTP server
 const app = express();
@@ -19,6 +20,7 @@ await connectDB();
 
 // Routes
 app.use("/api/users/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
