@@ -1,5 +1,6 @@
 import Message, { messageValidationSchema } from "../models/Mesaage.js";
 import User from "../models/User.js";
+import { io, userSocketMap } from "../server.js";
 
 // Get All users except the logged in user
 export const getUsersForSideBar = async (req, res) => {
@@ -85,6 +86,13 @@ export const sendMessage = async (req, res) => {
       text,
       image: imageUrl,
     });
+
+    // Emit the new message to the receiver
+    const receiverSocketId = userSocketMap[receiverId];
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
     res.status(200).json({ success: true, newMessage });
     if (error) {
       return res
