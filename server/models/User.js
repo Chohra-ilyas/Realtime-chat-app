@@ -44,6 +44,8 @@ export const loginValidationSchema = (userData) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
+    bio: Joi.string().max(500).optional(),
+    fullName: Joi.string().min(2).max(100).optional(),
   });
   return schema.validate(userData);
 };

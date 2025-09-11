@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         connectSocket(data.user);
       }
     } catch (error) {
+      console.log(error);
     }
   };
 
@@ -38,12 +39,14 @@ export const AuthProvider = ({ children }) => {
         connectSocket(data.user);
         axios.defaults.headers.common["token"] = data.token;
         localStorage.setItem("token", data.token);
+        console.log(data);
         setToken(data.token);
         toast.success(data.message);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     }
   };
@@ -65,7 +68,10 @@ export const AuthProvider = ({ children }) => {
   // Update profile function to update user data
   const updateProfile = async (updatedUser) => {
     try {
-      const data = await axios.put("/api/users/update-profile", updatedUser);
+      const { data } = await axios.put(
+        "/api/users/update-profile",
+        updatedUser
+      );
       if (data.success) {
         setAuthUser(data.user);
         toast.success("Profile updated successfully");

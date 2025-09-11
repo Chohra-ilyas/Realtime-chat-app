@@ -37,7 +37,7 @@ export const signUp = async (req, res) => {
       bio,
     });
     const token = generateToken(newUser);
-    res.status(201).json({ success: true, user: newUser, token });
+    res.status(201).json({ success: true, user: newUser, token, message: "User registered successfully" });
   } catch (error) {
     console.error("Error signing up user:", error);
     res
@@ -53,7 +53,8 @@ export const signUp = async (req, res) => {
  * @returns JSON response with user data and token or error message
  */
 export const login = async (req, res) => {
-  const { error } = loginValidationSchema(req.body);
+  const { email, password } = req.body;
+  const { error } = loginValidationSchema({ email, password });
   if (error) {
     return res.status(400).json({
       success: false,
@@ -61,7 +62,6 @@ export const login = async (req, res) => {
       details: error.details,
     });
   }
-  const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
