@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated and if so, set the user data and connect to socket
   const checkAuth = async () => {
     try {
-      const data = await axios.get("/api/users/auth/check");
+      const { data } = await axios.get("/api/users/auth/check");
       if (data.success) {
         setAuthUser(data.user);
         connectSocket(data.user);
@@ -113,6 +113,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     updateProfile,
+    checkAuth,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

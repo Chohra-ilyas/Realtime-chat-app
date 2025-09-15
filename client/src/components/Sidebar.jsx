@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import assets, { userDummyData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 const Sidebar = ({ selectedUser, setSelectedUser }) => {
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
   return (
     <div
@@ -27,7 +30,10 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
                 Edit Profile
               </p>
               <hr className="my-2 border-t border-gray-500" />
-              <p className="cursor-pointer text-sm hover:text-gray-300">
+              <p
+                className="cursor-pointer text-sm hover:text-gray-300"
+                onClick={logout}
+              >
                 Logout
               </p>
             </div>
@@ -48,7 +54,9 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
             onClick={() => setSelectedUser(user)}
             key={index}
             className={`relative flex items-center gap-2 p-2 pl-4 rounded 
-              cursor-pointer max-sm:text-sm ${selectedUser?._id === user._id && "bg-[#282142]/50"}`}
+              cursor-pointer max-sm:text-sm ${
+                selectedUser?._id === user._id && "bg-[#282142]/50"
+              }`}
           >
             <img
               src={user?.profilePic || assets.avatar_icon}
