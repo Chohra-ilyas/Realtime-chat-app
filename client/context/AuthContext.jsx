@@ -5,13 +5,14 @@ import { io } from "socket.io-client";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.baseURL = backendURL;
+axios.defaults.headers.common["token"] = localStorage.getItem("token");
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [authUser, setAuthUser] = useState(null);
-  const [onlineUser, setOnlineUser] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const [socket, setSocket] = useState(null);
 
   // Check if user is authenticated and if so, set the user data and connect to socket
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   // Logout function to clear user data and disconnect from socket
   const logout = () => {
     setAuthUser(null);
-    setOnlineUser([]);
+    setOnlineUsers([]);
     setToken(null);
     localStorage.removeItem("token");
     axios.defaults.headers.common["token"] = null;
@@ -93,7 +94,8 @@ export const AuthProvider = ({ children }) => {
     setSocket(newSocket);
 
     newSocket.on("getOnlineUsers", (userIds) => {
-      setOnlineUser(userIds);
+      console.log(userIds);
+      setOnlineUsers(userIds);
     });
   };
 
@@ -102,13 +104,13 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["token"] = token;
     }
     checkAuth();
-  }, []);
+  }, [token]);
 
   const value = {
     axios,
     token,
     authUser,
-    onlineUser,
+    onlineUsers,
     socket,
     login,
     logout,

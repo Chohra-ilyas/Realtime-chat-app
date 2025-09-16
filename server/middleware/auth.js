@@ -6,10 +6,10 @@ export const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.token;
 
   if (!authHeader) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+    return res.status(401).json({ success: false, message: "Unauthorized from here" });
   }
   try {
-    const decoded = jwt.verify(authHeader, process.env.JWT_SECRET);
+    const decoded = await jwt.verify(authHeader, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId).select("-password");
     if (!user) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
