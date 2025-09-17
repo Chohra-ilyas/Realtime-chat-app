@@ -30,6 +30,7 @@ export const ChatProvider = ({ children }) => {
     try {
       const { data } = await axios.get(`/api/messages/${userId}`);
       if (data.success) {
+        console.log(data)
         setMessages(data.messages);
       }
     } catch (error) {
@@ -77,7 +78,7 @@ export const ChatProvider = ({ children }) => {
 
   // function to unsubscribe from messages
   const unsubscribeFromMessages = () => {
-    if (socket) socket.off("newMessages");
+    if (socket) socket.off("newMessage");
   };
 
   useEffect(() => {

@@ -16,8 +16,6 @@ const ChatContainer = () => {
   } = useContext(ChatContext);
   const { authUser, onlineUsers } = useContext(AuthContext);
   const scrollEnd = useRef();
-
-  const [isSend, setIsSend] = useState(false);
   const [input, setInput] = useState("");
 
   const handleSendMessage = async (e) => {
@@ -46,7 +44,7 @@ const ChatContainer = () => {
     if (selectedUser) {
       getMessages(selectedUser._id);
     }
-  }, [selectedUser, isSend, messages]);
+  }, [selectedUser]);
 
   useEffect(() => {
     if (scrollEnd.current && messages) {
@@ -135,7 +133,6 @@ const ChatContainer = () => {
             value={input}
             onKeyDown={(e) => {
               e.key === "Enter" && input ? handleSendMessage(e) : null;
-              e.key === "Enter" && setIsSend((prev) => !prev);
             }}
           />
           <input
