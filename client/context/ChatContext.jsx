@@ -53,6 +53,7 @@ export const ChatProvider = ({ children }) => {
       toast.error(data.message);
     } finally {
       getMessages(selectedUser._id);
+      subscribeToMessages();
     }
   };
 
