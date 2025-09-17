@@ -29,7 +29,7 @@ const ChatContainer = () => {
   //Handle sending an image
   const handleSendImage = async (e) => {
     const file = e.target.files[0];
-    if (!file || !file.type.startWith("image/")) {
+    if (!file || !file.type.startsWith("image/")) {
       toast.error("select an image file");
       return;
     }

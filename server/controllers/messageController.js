@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudinary.js";
 import Message, { messageValidationSchema } from "../models/Mesaage.js";
 import User from "../models/User.js";
 import { io, userSocketMap } from "../server.js";
@@ -69,10 +70,15 @@ export const markMessagesAsSeen = async (req, res) => {
 // Send a message to selected user
 export const sendMessage = async (req, res) => {
   try {
-    const { error } = messageValidationSchema(req.body);
+    const { text, image } = req.body;
+    const { error } = messageValidationSchema(text);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const receiverId = req.params.id;
     const senderId = req.user._id;
-    const { text, image } = req.body;
     let imageUrl;
     if (image) {
       const uploadResponse = await cloudinary.uploader.upload(image, {

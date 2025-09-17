@@ -22,9 +22,9 @@ const Sidebar = () => {
       )
     : users;
 
-    useEffect(() => {
-      getUsers();
-    }, [onlineUsers]);
+  useEffect(() => {
+    getUsers();
+  }, [onlineUsers]);
 
   return (
     <div
@@ -73,7 +73,10 @@ const Sidebar = () => {
       <div className="flex flex-col gap-4">
         {filteredUsers?.map((user, index) => (
           <div
-            onClick={() => setSelectedUser(user)}
+            onClick={() => {
+              setSelectedUser(user);
+              setUnseenMessages((prev) => ({ ...prev, [user._id]: 0 }));
+            }}
             key={index}
             className={`relative flex items-center gap-2 p-2 pl-4 rounded 
               cursor-pointer max-sm:text-sm ${

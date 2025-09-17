@@ -15,7 +15,6 @@ const messageSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: true,
     },
     image: {
       type: String,
@@ -38,7 +37,6 @@ export default Message;
 export const messageValidationSchema = (messageData) => {
   const schema = Joi.object({
     text: Joi.string().optional(),
-    image: Joi.string().optional(),
   });
   return schema.validate(messageData);
 }
