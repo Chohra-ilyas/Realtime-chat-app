@@ -17,6 +17,7 @@ const ChatContainer = () => {
   const { authUser, onlineUsers } = useContext(AuthContext);
   const scrollEnd = useRef();
 
+  const [isSend, setIsSend] = useState(false);
   const [input, setInput] = useState("");
 
   const handleSendMessage = async (e) => {
@@ -45,7 +46,7 @@ const ChatContainer = () => {
     if (selectedUser) {
       getMessages(selectedUser._id);
     }
-  }, [selectedUser, messages]);
+  }, [selectedUser, isSend]);
 
   useEffect(() => {
     if (scrollEnd.current && messages) {
@@ -132,9 +133,10 @@ const ChatContainer = () => {
           text-white placeholder-gray-400"
             onChange={(e) => setInput(e.target.value)}
             value={input}
-            onKeyDown={(e) =>
-              e.key === "Enter" && input ? handleSendMessage(e) : null
-            }
+            onKeyDown={(e) => {
+              e.key === "Enter" && input ? handleSendMessage(e) : null;
+              e.key === "Enter" && setIsSend((prev) => !prev);
+            }}
           />
           <input
             onChange={handleSendImage}
