@@ -18,23 +18,23 @@ export const io = new Server(server, {
 });
 
 //Store online users
-export const userSocketMap = {} // {userId: socketId}
+export const userSocketMap = {}; // {userId: socketId}
 
 // Socket.io connection handling
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   console.log(`User connected: ${userId}`);
-  if(userId) userSocketMap[userId] = socket.id;
+  if (userId) userSocketMap[userId] = socket.id;
 
   // Emit online users to all connected clients
-  io.emit("getOnlineUsers",Object.keys(userSocketMap));
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${userId}`);
-    if(userId) delete userSocketMap[userId];
-    io.emit("getOnlineUsers",Object.keys(userSocketMap));
+    if (userId) delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
-})
+});
 
 // Middleware setup
 app.use(cors());
@@ -50,7 +50,11 @@ app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 
 // Start server
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+export default server
