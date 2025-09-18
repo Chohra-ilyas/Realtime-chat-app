@@ -14,7 +14,11 @@ const server = http.createServer(app);
 
 //Initialize Socket.io server
 export const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: {
+    origin: "https://realtime-chat-app-backend-iota.vercel.app/",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 //Store online users
@@ -57,4 +61,4 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-export default server
+export default server;
